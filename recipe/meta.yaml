@@ -6,25 +6,27 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: cc36de86bdf8b56b24c6b556b0eaf20b7dd6e6a1cd73addd31c0ccc4c99639a2
 
 build:
   noarch: python
-  number: 2
+  number: 3
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python {{ python_min }}
   run:
-    - python >=3.6
+    - python >={{ python_min }}
     - setuptools
     - psycopg2
     - sqlalchemy
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - cockroachdb
     - cockroachdb.sqlalchemy
